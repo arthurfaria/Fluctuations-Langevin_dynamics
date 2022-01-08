@@ -1,38 +1,12 @@
 
-# coding: utf-8
-
-# Source
-# 
-# https://aip.scitation.org/doi/abs/10.1063/1.4802990
-# 
-# http://hockygroup.hosting.nyu.edu/exercise/langevin-dynamics.html
-Parameters to be used
-
-ks = 2
-
-#gamma**2 >> 4*k overdamped
-gamma = 3 #10 
-kBT = 1.0
-
-dt = 0.001
-tMax = 50
-
-# Sample conditions
-
-N = 10**2 #int(argv[1])
-x_init = 0.3
-v_init = 0.
 # In[1]:
-
 
 import pylab as plt
 import numpy as np
 import time as tm 
 from sys import argv
 
-
 # In[2]:
-
 
 # Harmonic force
 
@@ -41,7 +15,6 @@ def force(x, *args):
     ks = args[0]
     f = -ks*(x)
     return f
-
 
 # Return the time lenght
 
@@ -56,9 +29,7 @@ def Time_len(tMax, dt):
 
     return len(L)
 
-
 # In[3]:
-
 
 # Stochastic evolution
 # for further explanation, read: https://aip.scitation.org/doi/abs/10.1063/1.4802990
@@ -77,7 +48,6 @@ def random_velocity_update(v,gamma,kBT,dt):
     c2 = np.sqrt(1-np.exp(-2*gamma*dt))*np.sqrt(kBT)
     v_dt = c1*v + c2*R
     return v_dt
-
 
 def BAOAB_method(x_init, v_init, tMax, dt, gamma, kBT, ks):
     
@@ -115,7 +85,6 @@ def BAOAB_method(x_init, v_init, tMax, dt, gamma, kBT, ks):
 
 
 # In[4]:
-
 
 ###################### MAIN #############################
 
@@ -156,7 +125,6 @@ for ii in range(N):
 
 t = np.array(time)
 
-
 ### Statistics
 
 # Mean
@@ -171,22 +139,7 @@ Var_x = M_x2 - M_x**2
 end = tm.time()
 print(end-start)
 
-
-# In[5]:
-
-
-############ Printing data ################
-
-#output = np.array([M_x2, M_x, t])
-
-#data_path = "/home/fariaart/Dropbox/data_%s.txt" %N
-#data_path = "/home/des01/mbonanca/fariaart/Resultados/Doutorado/Lutz/over_data_%s.txt" %N
-#with open(data_path , "w+") as data:
-    #np.savetxt(data, output.T, fmt='%f')
-
-
 # In[6]:
-
 
 ############ Plotting data ################
 
@@ -198,9 +151,7 @@ plt.ylabel(r' $\left<x^2\right> - \left<x\right>^2$', fontsize = 12)
 plt.xlabel(r' $t$', fontsize = 12)
 
 plt.legend(loc='lower center')
-#plt.savefig('/home/fariaart/Dropbox/Pesquisa/Doutorado/Lutz/figuras/var_mean_over_kk/HO_brown/under_2_1.png', transparent=False)
 plt.figure()
-
 
 # Mean value plot
 
@@ -211,6 +162,4 @@ plt.xlabel(r' $t$', fontsize = 12)
 #plt.ylim(-0.07,0.07)
 
 plt.legend(loc='upper center')
-#plt.savefig('/home/fariaart/Dropbox/Pesquisa/Doutorado/Lutz/figuras/var_mean_over_kk/HO_brown/under_2_2.png', transparent=False)
 plt.figure()
-
