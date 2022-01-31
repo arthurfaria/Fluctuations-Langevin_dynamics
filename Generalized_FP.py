@@ -136,32 +136,6 @@ print(end-start)
 # In[4]:
 
 
-################## Plot of BM num and BM an
-
-fig1 = plt.figure(figsize=(8, 4))
-kappa = gamma * Dif/omega**2
-
-x0 = - x/(kappa)
-Z = 1./(np.sqrt(2*np.pi*kappa * np.abs(- beta0)))
-brow_an = Z * (np.exp(-(kappa)*x0**2))
-
-#########
-
-plt.plot(x, brow_an , color='red', label=r"$ an $")
-plt.plot(x, BM_sol.y[:,t_dur], color= 'darkblue', label=r"$ num $")
-
-plt.xlabel(r' $x$', fontsize = 12)
-plt.ylabel(r' $\rho_{BM}(x)$', fontsize = 12)
-
-plt.legend(loc=1, fontsize=12, fancybox=False)
-#fig1.savefig('/home/fariaart/Downloads/compar.png', transparent=False)
-
-plt.figure()
-
-
-# In[5]:
-
-
 ################## Plot of GenBM and Brown rhos
 
 fig2 = plt.figure(figsize=(8, 4))
@@ -183,44 +157,3 @@ plt.plot(x, BM_sol.y[:,t_dur], color= 'darkblue', label=r"$\rho_{BM}(x)$")
 plt.xlabel(r' $x$', fontsize = 12)
 
 plt.legend(loc=1, fontsize=12, fancybox=False)
-#fig2.savefig('/home/fariaart/Dropbox/Pesquisa/Doutorado/Lutz/Steady/Sigma/rho_ss_%s.png' %varsigma, transparent=False)
-
-
-# In[6]:
-
-
-################## Moments
-
-BM_m = np.trapz(x*BM_sol.y[:,t_dur],x)
-BM_v = np.trapz(x**2*BM_sol.y[:,t_dur],x)
-BM_k = (np.trapz(x**4*BM_sol.y[:,t_dur],x) - 3*BM_v**2)/BM_v**2
-
-GenBM_m = np.trapz(x*GenBM_sol.y[:,t_dur],x)
-GenBM_v = np.trapz(x**2*GenBM_sol.y[:,t_dur],x) 
-GenBM_k = (np.trapz(x**4*GenBM_sol.y[:,t_dur],x) - 3*GenBM_v**2)/ GenBM_v**2
-
-
-# Normalization
-
-print(np.trapz(BM_sol.y[:,t_dur],x))
-print(np.trapz(GenBM_sol.y[:,t_dur],x))
-print("")
-
-# Mean value
-
-print(BM_m)
-print(GenBM_m)
-print("")
-
-# Variance
-
-print(BM_v)
-print(GenBM_v)
-print("")
-
-# Kurtosis
-
-print(BM_k)
-print(GenBM_k)
-print("")
-
