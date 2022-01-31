@@ -17,42 +17,45 @@ from scipy import sparse
 
 ################## Parameters value
 
-dx = 1.0                     # spatial separation
+dx = 1.0                       # spatial separation
 x = np.arange(-50,50, dx)    # spatial grid points
 
-m     = 1.0                  # mass
-omega = 0.5                  # HO frequency
-gamma = 10.0                 # dissip                        
-Dif   = 2.0 * gamma/gamma    # D= nu/gamma^2 = 2KbT/gamma diffusion const
-sigma = 2.0 * gamma          # range/gamma^2
-kappa = gamma * Dif/(omega**2)
+m     = 1.0                    # mass
+omega = 0.5                    # HO frequency
+gamma = 10.0                   # dissip    
+KbT   = gamma                 
+Dif   = 1.0 * KbT/gamma        # D= nu/gamma^2 = 2KbT/gamma diffusion const
+sigma = 0.4 * gamma            # range/gamma^2
 
 varsigma = sigma/gamma
 
-beta0 = 1/2
-beta1 = 1/8 * varsigma**2
-beta2 = 1/48 * varsigma**4
-beta3 = 1/384 * varsigma**6
-beta4 = 1/3840 * varsigma**8
-beta5 = 1/46080 * varsigma**10
-beta6 = 1/645120 * varsigma**12
+################## Coefficients
 
-#print(Dif*beta0)
-#print(Dif*beta1)
-#print(Dif*beta2)
-#print(Dif*beta3)
-#print(Dif*beta4)
-#print(Dif*beta5)
-#print(Dif*beta6)
+beta0 = 1
+beta1 = (1/2) * varsigma**2
+beta2 = (1/8) * varsigma**4
+beta3 = (1/48) * varsigma**6
+beta4 = (1/384) * varsigma**8
 
-print("")
+zeta0 = 1/2 
+zeta1 = (1/8) * varsigma**2
+zeta2 = (1/48) * varsigma**4
+zeta3 = (1/384) * varsigma**6
+zeta4 = (1/3840) * varsigma**8
+
+C0 = (gamma*varsigma**2/Dif) * beta0 + zeta0
+C1 = (gamma*varsigma**2/Dif) * beta1 + zeta1
+C2 = (gamma*varsigma**2/Dif) * beta2 + zeta2
+C3 = (gamma*varsigma**2/Dif) * beta3 + zeta3
+C4 = (gamma*varsigma**2/Dif) * beta4 + zeta4
+
 
 ################## Initial rho0   
 
 def ddf(x,sig):
     x0 = x #- 10
     val = np.zeros_like(x0)
-    val[(-(1/(2*sig))<=x0) & (x0<=(1/(2*sig)))] = 1
+    val[(-(1/(10*sig))<=x0) & (x0<=(1/(10*sig)))] = 1
     return val
 
 delta0 = ddf(x,1)            # initial delta
@@ -62,8 +65,8 @@ print(np.trapz(delta0, x))
 ################## overdamped standard BM rho_t   
 
 def BM_rho_t(t, rho):
-    B0 = omega**2/gamma  *  np.convolve(x*rho, [1,-1], 'same') / dx  
-    B2 = 1/2 *np.convolve(rho, [1,-2,1], 'same') / (dx**2)
+    B0 = omega**2/gamma * np.convolve(x*rho, [1,-1], 'same') / dx  
+    B2 = 1/2 * np.convolve(rho, [1,-2,1], 'same') / (dx**2)
     #print(t)
     return  B0 + Dif* B2 
 
@@ -71,12 +74,12 @@ def BM_rho_t(t, rho):
 ################## overdamped GenBM rho_t   
 
 def GenBM_rho_t(t, rho):
-    D0 = omega**2/gamma  *  np.convolve(x*rho, [1,-1], 'same') / dx  
-    D2 = 1/2 * np.convolve(rho, [1,-2,1], 'same') / (dx**2)
-    D4 = 1/8 * varsigma**2 * np.convolve(rho, [1, -4, 6, -4, 1], 'same') / (dx**4)
-    D6 = 1/48 * varsigma**4 * np.convolve(rho, [1, -6, 15, -20, 15,  -6, 1], 'same') / (dx**6)
-    D8 = 1/384 * varsigma**6 * np.convolve(rho, [1, -8, 28, -56, 70, -56, 28, -8, 1], 'same') / (dx**8)
-    D10 = 1/3840 * varsigma**8 * np.convolve(rho, [1, -10, 45, -120, 210, -252, 210, -120, 45, -10, 1], 'same') / (dx**10)
+    D0 = omega**2/gamma * np.convolve(x*rho, [1,-1], 'same') / dx  
+    D2 = C0 * np.convolve(rho, [1,-2,1], 'same') / (dx**2)
+    D4 = C1 * np.convolve(rho, [1, -4, 6, -4, 1], 'same') / (dx**4)
+    D6 = C2 * np.convolve(rho, [1, -6, 15, -20, 15,  -6, 1], 'same') / (dx**6)
+    D8 = C3 * np.convolve(rho, [1, -8, 28, -56, 70, -56, 28, -8, 1], 'same') / (dx**8)
+    D10= C4 * np.convolve(rho, [1, -10, 45, -120, 210, -252, 210, -120, 45, -10, 1], 'same') / (dx**10)
     return  D0 + Dif*(D2 + D4 + D6 + D8 + D10)
 
 ################## Harmonic Force and Potential    
