@@ -1,6 +1,6 @@
 # Langevin dynamics:
 
-This is the repository that sheds light on numerical results on fluctuation theorems for Langevin dynamics
+This is a repository that sheds light on numerical results on fluctuation theorems for Langevin dynamics
 
 ## Repository content
 
