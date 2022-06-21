@@ -4,12 +4,11 @@ This is a repository that sheds light on numerical results on fluctuation theore
 
 ## Repository content
 
-1. stat_langevin.py
+1. Langevin_dynamics.ipynb
  	- Gaussian stochastic dynamics for a Brownian particle. Mean value and variance are calculated. Algorithm based on Ref.[1].
 	
-2. FT_langevin.py
-	- Gaussian stochastic dynamics for a Brownian particle under a harmonic potential whose center of mass is displaced with constant velocity (see Ref.[2]). 
-	Fluctuation Theorem for work is calculated. Algorithm based on Ref.[1].
+2. FT_langevin.ipynb
+	- Gaussian stochastic dynamics for a Brownian particle under a harmonic potential whose center of mass is displaced with constant velocity (see Ref.[2]). Fluctuation Theorem for work is calculated. Algorithm based on Ref.[1].
 	
 ## References:
 
