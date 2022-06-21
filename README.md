@@ -1,6 +1,6 @@
 # Langevin dynamics:
 
-This is a repository that sheds light on numerical results on fluctuation theorems for Gaussian Langevin dynamics
+This is a repository that sheds light on numerical results on fluctuation theorems for Gaussian Langevin dynamics in `Python`
 
 ## Repository content
 
