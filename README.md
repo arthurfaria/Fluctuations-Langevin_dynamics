@@ -1,11 +1,11 @@
-# Langevin dynamics:
+## FT for work and position statistics employing Gaussian Langevin dynamics:
 
 This repository offers numerical findings pertaining to fluctuation theorems concerning Gaussian Langevin dynamics. The code has been implemented using the `Python` programming language.
 
-## Repository content
+### Repository content
 
 1. Langevin_dynamics.ipynb
- 	- Gaussian stochastic dynamics for a Brownian particle. Mean value and variance are calculated. Algorithm based on Ref.[1].
+ 	- Gaussian stochastic dynamics for a Brownian particle. Mean value and variance for position are calculated. Algorithm based on Ref.[1].
 	
 2. FT_langevin.ipynb
 	- Gaussian stochastic dynamics for a Brownian particle under a harmonic potential whose center of mass is displaced with constant velocity (see Ref.[2]). Fluctuation Theorem for work is calculated. Algorithm based on Ref.[1].
